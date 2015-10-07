@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Typer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <style type="text/css">
+        html{
+            height: 100%;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body{
+            background-color: rgb(240,240,240);
+            height: 100%;
+            margin: 0;
+            padding: 8px;
+        }
+
+        #target{
+            color: rgb(0,0,0);
+            background-color: rgb(255,255,255);
+            font-size: 100vh;
+            height: 100%;
+            line-height: 1em;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #startup{
+            font-size: 16px;
+        }
+    </style>
+    <script type="text/javascript">
+
+        /**
+         * Self-calling onload function
+         **/
+        document.onload = function(){
+
+            /**
+             * Convert key code to ASCII
+             * event.type must be keypress
+             **/
+            function getChar(event) {
+                if (event.which == null) {
+                    // Internet Explorer
+                    return String.fromCharCode(event.keyCode)
+                } else if (event.which!=0 && event.charCode!=0) {
+                    // "Standard" Browsers
+                    return String.fromCharCode(event.which)
+                } else {
+                     // special key
+                    return null;
+                }
+            }
+
+            /**
+             * Convert key code to ASCII
+             **/
+            document.onkeydown = function(event) {
+                document.getElementById("target").innerHTML = String.fromCharCode(event.which);
+                return false;
+            }
+
+        }();
+
+    </script>
+</head>
+<body>
+    <div id="target">
+        <div id="startup">Press any letter</div>
+    </div>
+</body>
+</html>
