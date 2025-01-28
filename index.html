@@ -37,8 +37,8 @@
             font-size: 16px;
         }
     </style>
+    <script src="responsivevoice.js"></script>
     <script type="text/javascript">
-
         /**
          * Self-calling onload function
          **/
@@ -49,28 +49,109 @@
              * event.type must be keypress
              **/
             function getChar(event) {
-                if (event.which == null) {
-                    // Internet Explorer
-                    return String.fromCharCode(event.keyCode)
-                } else if (event.which!=0 && event.charCode!=0) {
-                    // "Standard" Browsers
-                    return String.fromCharCode(event.which)
-                } else {
-                     // special key
-                    return null;
+
+                // Debugging
+                // console.log('Charcode: ' + event.charCode + ', RKeycode: ' + event.keyCode + ', Which: ' + event.which + ' = ' + String.fromCharCode(event.which) );
+                // console.log(event);
+
+                // Initialization
+                glyph = '';
+
+                // Numbers
+                if(event.keyCode >= 48 && event.keyCode <= 57){
+                    glyph = String.fromCharCode(event.keyCode);
                 }
+
+                // Alphabet
+                if(event.keyCode >= 65 && event.keyCode <= 90){
+                    glyph = String.fromCharCode(event.keyCode);
+                }
+
+                // Others
+                switch(event.keyCode){
+                    case 186:
+                        glyph = ';';
+                        break;
+                    case 187:
+                        glyph = '=';
+                        break;
+                    case 188:
+                        glyph = ',';
+                        break;
+                    case 189:
+                        glyph = '-';
+                        break;
+                    case 190:
+                        glyph = '.';
+                        break;
+                    case 191:
+                        glyph = '/';
+                        break;
+                    case 192:
+                        glyph = '~';
+                        break;
+                    case 219:
+                        glyph = '[';
+                        break;
+                    case 220:
+                        glyph = '\\';
+                        break;
+                    case 221:
+                        glyph = ']';
+                        break;
+                    case 222:
+                        glyph = '\'';
+                        break;
+                    case 37:
+                        glyph = '←';
+                        break;
+                    case 38:
+                        glyph = '↑';
+                        break;
+                    case 39:
+                        glyph = '→';
+                        break;
+                    case 40:
+                        glyph = '↓';
+                        break;
+                    case 91:
+                        glyph = '⌘';
+                        break;
+                    case 93:
+                        glyph = '⌘';
+                        break;
+                }
+
+                if(glyph == ''){
+                    glyph = '⊗';
+                }
+
+                return glyph;
+
             }
 
             /**
              * Convert key code to ASCII
              **/
             document.onkeydown = function(event) {
-                document.getElementById("target").innerHTML = String.fromCharCode(event.which);
+
+                var dom_target = document.querySelector('#target');
+
+                var letter = getChar(event);
+
+                responsiveVoice.speak(letter.toLowerCase());
+
+                dom_target.style.color = 'rgb(' + Math.round(255 * Math.random()) + ',' + Math.round(255 * Math.random()) + ',' + Math.round(255 * Math.random()) + ')';
+
+                if (letter.charCodeAt(0) >= 65 && letter.charCodeAt(0) <= 90){
+                    dom_target.innerHTML = letter + letter.toLowerCase();
+                } else {
+                    dom_target.innerHTML = letter
+                }
+
                 return false;
             }
-
         }();
-
     </script>
 </head>
 <body>
